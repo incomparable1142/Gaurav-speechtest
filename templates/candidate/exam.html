@@ -1,0 +1,81 @@
+{% extends "candidate/base.html" %}
+{% block title %}HOME{% endblock %}
+{% block head %}
+  {{ super() }}
+ <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">-->
+ <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shoelace-css/1.0.0-beta16/shoelace.css">-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+{% block content %}
+
+<p class="important">
+{% if session['name'] %}
+<center><h3 class="well">VOICE TEST</h3></center><hr><br><br><br>
+    <!--<div class="col-lg-12 well">-->
+    <div class="row">
+
+      <div class="col s12 m1">
+        <div class="card"></div>
+      </div>
+
+      <div class="col s12 m5">
+        <div class="card">
+          <div class="card-content">
+
+            {% for d in data %}
+
+            <center><h5>{{ d.name }}</h5></center><hr><br>
+            <p> {{ d.test }} </p>
+
+            {% endfor %}
+            <br><br><br>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m5">
+        <div class="card">
+          <center>
+            <div class="card-content">
+              <h5>Record</h5><hr><br>
+              <p>
+                <div class="app">
+
+                  <div class="input-single">
+                    <textarea id="note-textarea" name="test" form="usrform" required="" placeholder="Start the test using voice recognition." rows="10"></textarea>
+                  </div>
+
+                  <button id="start-record-btn" title="Start Recording">Start Recognition</button>
+
+                  <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
+
+                <form action="/candidate/save_result" id="usrform" method="post">
+                    <input type="hidden" value="{{session['name']}}" name="name"><br>
+                    <input type="submit" size="20">
+                  </form>
+                </div>
+
+              </p>
+            </div>
+          </center>
+        </div>
+      </div>
+
+      <div class="col s12 m1">
+        <div class="card"></div>
+      </div>
+    </div>
+</div><br><br><br><br><br><br>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</center>
+
+  {% else %}
+
+    <p style="color: red"> You still didn't set your Email, do it
+        <a href="{{ url_for('candidate') }}">here</a></p>
+
+  {% include 'candidate/session.html' %}
+  {% endif %}
+</p>
+
+{% endblock %}
